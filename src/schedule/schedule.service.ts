@@ -11,6 +11,6 @@ export class ScheduleTasksService {
 
   @Cron('* 1 * * * * *')
   handleCron(): void {
-    this.techService.bugTechCrunchData();
+    // this.techService.bugTechCrunchData();
   }
 }

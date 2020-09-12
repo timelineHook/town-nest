@@ -8,6 +8,7 @@ import * as uuid from 'uuid';
 import { LoggerService } from 'src/logger/logger.service';
 import * as _ from 'lodash';
 import { UtilService } from '../util/util';
+import { GetByPageDTO } from './tech.dto';
 
 @Injectable()
 export class TechService {
@@ -24,8 +25,12 @@ export class TechService {
     this.logger.setContext('TechService');
   }
 
-  async getTechData(): Promise<TechCrunch> {
-    const data = await this.techModel.findOne();
+  async getTechData(query: GetByPageDTO): Promise<TechCrunch[]> {
+    const {page, limit} = query;
+    const intPage = parseInt(page);
+    const intLimit = parseInt(limit ?? '20');
+    const skip = intPage * intLimit;
+    const data = await this.techModel.find().sort({date: -1}).skip(skip).limit(intLimit);
     return data;
   }
 
