@@ -32,7 +32,7 @@ export class TechService {
     const intLimit = parseInt(limit);
     const skip = (intPage - 1) * intLimit;
     const data = await this.techModel.find({}, { content: 0 }).sort({ date: -1 }).skip(skip).limit(intLimit).lean<TechCrunchSchema>();
-    data.forEach((v) => v.imageSrc = `${constant.techDir}/${v.imageSrc}`);
+    data.forEach((v) => v.imageSrc = fs.readFileSync(`${constant.techDir}/${v.imageSrc}`).toString('base64'));
     return data;
   }
 
