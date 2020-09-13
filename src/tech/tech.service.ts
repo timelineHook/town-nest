@@ -33,11 +33,8 @@ export class TechService {
     const skip = (intPage - 1) * intLimit;
     const data = await this.techModel.find({}, { content: 0 }).sort({ date: -1 }).skip(skip).limit(intLimit).lean<TechCrunchSchema>();
     data.forEach((v) => {
-      const src = `${constant.techDir}/${v.imageSrc}`;
-      if (fs.existsSync(src)) {
-        v.imageSrc = fs.readFileSync(src).toString('base64')
-      }
-    });
+      v.imageSrc = `http://101.200.74.42:3000/tech/get/src/${v}`;
+    })
     return data;
   }
 
@@ -118,6 +115,15 @@ export class TechService {
     } catch (e) {
       logger.error(`clearTechBrunchData fail`, e.message);
     }
+  }
+
+  // 获取图片
+  getSrcService(id: string): string{
+    const src = `${constant.techDir}/${id}`;
+    if (fs.existsSync(src)) {
+      return fs.readFileSync(src, 'binary');
+    }
+    return '404';
   }
 
 }
