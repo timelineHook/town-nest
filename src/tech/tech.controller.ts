@@ -1,6 +1,6 @@
-import { Controller, Get, Param, Query } from '@nestjs/common'
+import { Controller, Get, Query } from '@nestjs/common'
 import { TechService } from './tech.service';
-import { TechCrunch } from 'src/tech/techCrunch.schema';
+import { TechCrunchSchema } from 'src/tech/techCrunch.schema';
 import { GetByPageDTO } from './tech.dto';
 
 @Controller('tech')
@@ -9,8 +9,8 @@ export class TechController {
     private readonly techService: TechService
   ) { }
   
-  @Get('/get/tech/:page')
-  async getDbData(@Query() query: GetByPageDTO): Promise<TechCrunch[]>{
+  @Get('get')
+  async getDbData(@Query() query: GetByPageDTO): Promise<TechCrunchSchema[]>{
     return await this.techService.getTechData(query);
   }
 }

@@ -3,8 +3,9 @@ import { MongooseModule } from '@nestjs/mongoose'
 import { ScheduleModule } from '@nestjs/schedule';
 import { ScheduleTasksModule } from './schedule/schedule.module';
 import { TechUtilModule } from './util/util.module';
-import { LoggerModule } from './logger/logger.module';
 import { LoggerMiddleware } from './middleware/log.middleware';
+import { APP_INTERCEPTOR } from '@nestjs/core';
+import { WinstonInterceptor } from './interceptor/winston.logger.interceptor';
 
 @Global()
 @Module({
@@ -19,11 +20,13 @@ import { LoggerMiddleware } from './middleware/log.middleware';
     }),
     ScheduleModule.forRoot(),
     ScheduleTasksModule,
-    TechUtilModule,
-    LoggerModule
+    TechUtilModule
   ],
   controllers: [],
-  providers: [],
+  providers: [{
+    provide: APP_INTERCEPTOR,
+    useClass: WinstonInterceptor
+  }],
 })
 export class AppModule implements NestModule {
   configure(consumer: MiddlewareConsumer): void {

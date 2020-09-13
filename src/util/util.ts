@@ -1,7 +1,7 @@
 import { Injectable, HttpService } from "@nestjs/common";
 import * as fs from 'fs';
 import { CreateImageDto } from "src/dto/util.dto";
-import { LoggerService } from "src/logger/logger.service";
+import { logger } from "../middleware/winston.middleware";
 import * as moment from 'moment';
 import * as uuid from 'uuid';
 
@@ -10,34 +10,39 @@ export class UtilService {
 
   constructor(
     private readonly http: HttpService,
-    private readonly logger: LoggerService
   ) {
-    this.logger.setContext('TechUtilService');
   }
 
-  private readonly TECHDIR = `/home/zzw/MySelfGitHUb/nest-pro-bug/public/image/tech.crunch`;
+  private readonly techDir = `/tmp/nest/tech/img`;
 
-   // 图片写入
+  // 图片写入
   async writeFIleImage(data: CreateImageDto): Promise<void> {
-    const req = await this.http.get(data.url, { responseType: 'stream'}).toPromise();
-    const writeStream = fs.createWriteStream(`${this.TECHDIR}/${data._id}`);
+    const req = await this.http.get(data.url, { responseType: 'stream' }).toPromise();
+    const writeStream = fs.createWriteStream(`${this.techDir}/${data._id}`);
     req.data.pipe(writeStream);
     writeStream.on('finish', (v) => {
-      this.logger.info('文件下载完成', this.getUtilDate());
+      logger.info('文件下载完成', this.getUtilDate());
       writeStream.end();
     });
     writeStream.on('error', (e) => {
-      this.logger.error('文件下载失败', e.message);
+      logger.error('文件下载失败', e.message);
     });
   }
 
   // 获取当天日期 YYYY-M-DD hh:mm:ss
-  getUtilDate(): string{
+  getUtilDate(): string {
     return moment().format('YYYY-MM-DD hh:mm:ss');
   }
 
+  // 获取当天日期 YY-MM-DD 00:00:00
+  getUtilDateStart(): string {
+    const hour = '00:00:00';
+    const day = `${moment().format('YYYY-MM-DD')} ${hour}`;
+    return day;
+  }
+
   // 获取uuid v4 随机id
-  getRandomUUID(): string{
+  getRandomUUID(): string {
     return uuid.v4();
   }
 

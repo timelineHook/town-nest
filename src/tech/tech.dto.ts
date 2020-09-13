@@ -1,14 +1,14 @@
-import { IsString, IsNotEmpty, Allow } from "class-validator";
+import { IsString, IsNotEmpty } from "class-validator";
 
 /**
  * @description 分页查询techcrunch数据
  */
 export class GetByPageDTO {
-    @IsString()
     @IsNotEmpty()
+    @IsString()
     page: string;
 
+    @IsNotEmpty()
     @IsString()
-    @Allow()
-    limit?: string;
+    limit: string;
 }

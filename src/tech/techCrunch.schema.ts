@@ -1,8 +1,7 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { Document } from 'mongoose';
 
 @Schema()
-export class TechCrunch extends Document {
+export class TechCrunchSchema {
 
   @Prop()
   _id: string;
@@ -28,6 +27,9 @@ export class TechCrunch extends Document {
   @Prop()
   text: string;
 
+  @Prop()
+  createTIme: string;
+
 }
 
-export const TechDbSchema = SchemaFactory.createForClass(TechCrunch);
+export const TechCrunchSchemaFactory = SchemaFactory.createForClass(TechCrunchSchema);

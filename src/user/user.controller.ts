@@ -3,7 +3,7 @@ import { UserService } from './user.service';
 import { CreateUserDto} from '../dto/user.dto';
 import {UserGuard } from 'src/role/roles.guard';
 import { Roles } from 'src/role/roles.decorator';
-import { TestInterceptor } from 'src/interceptor/test.interceptor';
+import { WinstonInterceptor } from 'src/interceptor/winston.logger.interceptor';
 // import { User } from 'src/interfaces/user.interface';
 
 @Controller('user')
@@ -27,7 +27,7 @@ export class UserController{
 
   @Post('/addUser')
   @HttpCode(200)
-  @UseInterceptors(TestInterceptor)
+  @UseInterceptors(WinstonInterceptor)
   @Roles('admin', 'read')
   @UseGuards(UserGuard)
   async addUser(@Body() createrUserDto: CreateUserDto): Promise<CreateUserDto> {
