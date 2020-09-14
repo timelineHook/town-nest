@@ -28,7 +28,7 @@ export class TechCrunchSchema {
   text: string;
 
   @Prop()
-  createTIme: string;
+  createTime: string;
 
 }
 

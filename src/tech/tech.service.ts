@@ -31,15 +31,21 @@ export class TechService {
     const intPage = parseInt(page);
     const intLimit = parseInt(limit);
     const skip = (intPage - 1) * intLimit;
-    const data = await this.techModel.find({}, { content: 0 }).sort({ date: -1 }).skip(skip).limit(intLimit).lean<TechCrunchSchema>();
+    const data = await this.techModel.find({}, { content: 0 }).sort({ createTime: -1 }).skip(skip).limit(intLimit).lean<TechCrunchSchema>();
     data.forEach((v) => {
-      v.imageSrc = `http://101.200.74.42:3000/tech/get/src/${v}`;
+      v.imageSrc = `http://101.200.74.42:3000/tech/get/src/${v.imageSrc}`;
     })
     return data;
   }
 
   async bugTechCrunchData(): Promise<void> {
     try {
+
+      logger.info(`current page number ${this.TechCrunchPage}`, 'bugTechCrunchData page');
+
+      // 页数+1
+      this.TechCrunchPage += 1;
+
       // 获取tech  crunch数据
       const req = await this.http.get<ITechCrunchBug[]>(this.TECHCRUNCH,
         {
@@ -54,8 +60,6 @@ export class TechService {
         .insertMany(data)
         .catch((e: Error) => logger.error(`bugTechCrunchData db fail`, e.message));
 
-      // 组装数据
-      this.TechCrunchPage += 1;
       logger.info(data.length.toString(), 'initTechCrunchData data size');
     } catch (e) {
       logger.error(`bugTechCrunchData fail`, e.message);
@@ -74,7 +78,7 @@ export class TechService {
         imageSrc: v?.jetpack_featured_media_url,
         date: moment(v?.date).format("YYYY-MM-DD HH:mm"),
         text: v?.excerpt?.rendered,
-        createTIme: this.techUtil.getUtilDate()
+        createTime: this.techUtil.getUtilDate()
       }
     });
 
@@ -123,6 +127,7 @@ export class TechService {
     if (fs.existsSync(src)) {
       return fs.readFileSync(src, 'binary');
     }
+    logger.error('==============image no found!');
     return '404';
   }
 
