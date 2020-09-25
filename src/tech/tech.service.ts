@@ -76,7 +76,7 @@ export class TechService {
         name: v?._embedded?.author[0]?.name,
         subtitle: v?.subtitle,
         imageSrc: v?.jetpack_featured_media_url,
-        date: moment(v?.date).format("YYYY-MM-DD HH:mm"),
+        date: moment(v?.date).locale('zh-cn').format("YYYY-MM-DD HH:mm"),
         text: v?.excerpt?.rendered,
         createTime: this.techUtil.getUtilDate()
       }

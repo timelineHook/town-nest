@@ -29,15 +29,15 @@ export class UtilService {
     });
   }
 
-  // 获取当天日期 YYYY-M-DD hh:mm:ss
+  // 获取当天日期 YYYY-MM-DD hh:mm:ss
   getUtilDate(): string {
-    return moment().format('YYYY-MM-DD hh:mm:ss');
+    return moment().locale('zh-cn').format('YYYY-MM-DD HH:mm:ss');
   }
 
   // 获取当天日期 YY-MM-DD 00:00:00
   getUtilDateStart(): string {
     const hour = '00:00:00';
-    const day = `${moment().format('YYYY-MM-DD')} ${hour}`;
+    const day = `${moment().locale('zh-cn').format('YYYY-MM-DD')} ${hour}`;
     return day;
   }
 
