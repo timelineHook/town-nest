@@ -10,6 +10,12 @@
     "sourceMap": true,
     "outDir": "./dist",
     "baseUrl": "./",
-    "incremental": true
+    "incremental": true,
+    "paths": {
+      "@town/*": ["src/*"],
+      "@town/application": ["src/application"],
+      "@town/auth": ["src/town-auth"],
+      "@town/util": ["src/town.util"]
+    }
   }
 }

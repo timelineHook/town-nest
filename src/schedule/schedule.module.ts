@@ -1,14 +1,10 @@
-import { Module, HttpModule, Global } from '@nestjs/common';
+import { Module, HttpModule } from '@nestjs/common';
 import { ScheduleTasksService } from './schedule.service';
-import { TechModule } from 'src/tech/tech.module';
-import { TechService } from 'src/tech/tech.service';
-import { MongooseModule } from '@nestjs/mongoose';
-import { TechCrunchSchema, TechCrunchSchemaFactory } from 'src/tech/techCrunch.schema';
+import { TechService } from '@town/crawler.tech/tech.service';
+import { TechModel } from '@town/town.util/model.core';
 
-@Global()
 @Module({
-  imports: [TechModule, MongooseModule.forFeature([{ name: TechCrunchSchema.name, schema: TechCrunchSchemaFactory, collection: 'techCrunch' }], 'techCrunch'), HttpModule],
-  providers: [ScheduleTasksService, TechService],
-  exports: []
+  imports: [TechModel, HttpModule],
+  providers: [ScheduleTasksService, TechService]
 })
 export class ScheduleTasksModule { }

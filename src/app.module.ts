@@ -1,26 +1,26 @@
-import { Module, Global, NestModule, MiddlewareConsumer, RequestMethod } from '@nestjs/common';
+import { Module, Global, NestModule, MiddlewareConsumer, RequestMethod, HttpModule } from '@nestjs/common';
+import { APP_INTERCEPTOR } from '@nestjs/core';
 import { MongooseModule } from '@nestjs/mongoose'
 import { ScheduleModule } from '@nestjs/schedule';
-import { ScheduleTasksModule } from './schedule/schedule.module';
-import { TechUtilModule } from './util/util.module';
-import { LoggerMiddleware } from './middleware/log.middleware';
-import { APP_INTERCEPTOR } from '@nestjs/core';
-import { WinstonInterceptor } from './interceptor/winston.logger.interceptor';
+import { TechModule } from '@town/crawler.tech/tech.module';
+import { UtilModule } from '@town/town.util/util.module';
+import { LoggerMiddleware } from '@town/middleware/log.middleware';
+import { ScheduleTasksModule } from '@town/schedule/schedule.module';
+import { WinstonInterceptor } from '@town/interceptor/winston.logger.interceptor';
+import { UserModule } from '@town/town.user/user.module';
+import { AuthModule } from '@town/town.auth/auth.module';
 
-@Global()
 @Module({
   imports: [
-    // MongooseModule.forRoot('mongodb://localhost/techCrunch', {
-    //   user: 'zhangzw',
-    //   pass: 'zhangzw',
-    //   connectionName: 'techCrunch',
-    // }),
-    MongooseModule.forRoot('mongodb+srv://zhangzw:zhangzw@cluster0.xojkz.mongodb.net/user?retryWrites=true&w=majority', {
-      connectionName: 'techCrunch'
-    }),
+    MongooseModule.forRoot('mongodb+srv://zhangzw:zhangzw@cluster0.xojkz.mongodb.net/user?retryWrites=true&w=majority'),
     ScheduleModule.forRoot(),
     ScheduleTasksModule,
-    TechUtilModule
+    UtilModule,
+    HttpModule,
+
+    AuthModule,
+    TechModule,
+    UserModule
   ],
   controllers: [],
   providers: [{

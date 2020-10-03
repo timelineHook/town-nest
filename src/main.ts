@@ -6,9 +6,13 @@ import * as helmet from 'helmet';
 import * as compression from 'compression';
 import * as rTracer from 'cls-rtracer';
 import { logger } from './middleware/winston.middleware';
+import { HttpExceptionFilter } from './filter/http.exception';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
+
+  // 全局路由前缀
+  app.setGlobalPrefix('town');
 
   // 加载winston日志中间件
   app.useLogger(logger);
@@ -30,6 +34,9 @@ async function bootstrap() {
 
   // 守卫
   app.useGlobalPipes(new ValidationPipe());
+
+  // 全局异常过滤器
+  // app.useGlobalFilters(new HttpExceptionFilter());
 
   await app.listen(3000, () => {
     logger.info('listen 3000 success', 'next-pro-bug');

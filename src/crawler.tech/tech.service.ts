@@ -1,15 +1,15 @@
 import { Injectable, HttpService } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { TechCrunchSchema } from 'src/tech/techCrunch.schema';
+import { TechCrunch } from '@town/crawler.tech/techCrunch.schema';
 import { Model, Document } from 'mongoose';
 import { ITechCrunchBug } from 'src/interfaces/tech.crunch';
 import * as moment from 'moment';
 import * as uuid from 'uuid';
 import { logger } from '../middleware/winston.middleware';
 import * as _ from 'lodash';
-import { UtilService } from '../util/util';
+import { UtilService } from '../town.util/town.util';
 import { GetByPageDTO } from './tech.dto';
-import constant from '../application/constant';
+import * as CONSTANT from '../application/constant';
 import * as fs from 'fs';
 
 @Injectable()
@@ -19,19 +19,19 @@ export class TechService {
   private readonly TECHCRUNCH = `https://techcrunch.com/wp-json/tc/v1/magazine?page=${this.TechCrunchPage}&_embed=true&cachePrevention=0`;
 
   constructor(
-    @InjectModel(TechCrunchSchema.name) private techModel: Model<TechCrunchSchema & Document>,
+    @InjectModel(TechCrunch.name) private techModel: Model<TechCrunch & Document>,
     private readonly http: HttpService,
     private readonly techUtil: UtilService
   ) {
 
   }
 
-  async getTechData(query: GetByPageDTO): Promise<TechCrunchSchema[]> {
+  async getTechData(query: GetByPageDTO): Promise<TechCrunch[]> {
     const { page, limit } = query;
     const intPage = parseInt(page);
     const intLimit = parseInt(limit);
     const skip = (intPage - 1) * intLimit;
-    const data = await this.techModel.find({}, { content: 0 }).sort({ createTime: -1 }).skip(skip).limit(intLimit).lean<TechCrunchSchema>();
+    const data = await this.techModel.find({}, { content: 0 }).sort({ createTime: -1 }).skip(skip).limit(intLimit).lean<TechCrunch>();
     data.forEach((v) => {
       v.imageSrc = `http://101.200.74.42:3000/tech/get/src/${v.imageSrc}`;
     })
@@ -67,8 +67,8 @@ export class TechService {
   }
 
   // 初始化techcrunch数据
-  private initTechCrunchData(data: ITechCrunchBug[]): TechCrunchSchema[] {
-    const maps: TechCrunchSchema[] = data.map((v) => {
+  private initTechCrunchData(data: ITechCrunchBug[]): TechCrunch[] {
+    const maps: TechCrunch[] = data.map((v) => {
       return {
         _id: uuid.v4(),
         title: v?.title?.rendered,
@@ -114,7 +114,7 @@ export class TechService {
       const ids = data.map((v) => v.imageSrc);
       ids.forEach((v) => {
         logger.info(`remove image => ${v}`);
-        fs.unlink(`${constant.techDir}/${v}`, (e) => { logger.error(`remove image fail`, e.message); })
+        fs.unlink(`${CONSTANT.tech.techDir}/${v}`, (e) => { logger.error(`remove image fail`, e.message); })
       });
     } catch (e) {
       logger.error(`clearTechBrunchData fail`, e.message);
@@ -123,7 +123,7 @@ export class TechService {
 
   // 获取图片
   getSrcService(id: string): string{
-    const src = `${constant.techDir}/${id}`;
+    const src = `${CONSTANT.tech.techDir}/${id}`;
     if (fs.existsSync(src)) {
       return fs.readFileSync(src, 'binary');
     }

@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { Cron, CronExpression } from '@nestjs/schedule';
-import { TechService } from 'src/tech/tech.service';
+import { TechService } from '@town/crawler.tech/tech.service';
 
 @Injectable()
 export class ScheduleTasksService {
@@ -12,7 +12,7 @@ export class ScheduleTasksService {
   // 定时爬取数据
   @Cron(CronExpression.EVERY_30_MINUTES )
   bugTechBrunch(): void {
-    this.techService.bugTechCrunchData();
+    // this.techService.bugTechCrunchData();
   }
 
   // 每周清空前一周数据

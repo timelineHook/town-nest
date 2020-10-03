@@ -1,7 +1,7 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 
-@Schema()
-export class TechCrunchSchema {
+@Schema({ collection: 'techCrunch' })
+export class TechCrunch {
 
   @Prop()
   _id: string;
@@ -32,4 +32,4 @@ export class TechCrunchSchema {
 
 }
 
-export const TechCrunchSchemaFactory = SchemaFactory.createForClass(TechCrunchSchema);
+export const TechCrunchSchema = SchemaFactory.createForClass(TechCrunch);
