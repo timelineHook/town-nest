@@ -1,7 +1,7 @@
 import { Module, HttpModule } from '@nestjs/common';
 import { ScheduleTasksService } from './schedule.service';
 import { TechService } from '@town/crawler.tech/tech.service';
-import { TechModel } from '@town/town.util/model.core';
+import { TechModel } from '@town/town.util/town.model';
 
 @Module({
   imports: [TechModel, HttpModule],

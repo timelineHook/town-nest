@@ -5,8 +5,10 @@ import { RsaService } from "../rsa/rsa.service";
 import { UtilService } from "@town/town.util/town.util";
 import { TownException } from "@town/town.util/exception/app.exception";
 import { MsgPool } from '@town/town.util/exception/app.msg';
-import { RsaBase } from "../rsa/rsa.base";
-import { CoreBase } from "./core.base";
+import { RsaBase } from "@town/town.auth/rsa/rsa.base";
+import { CoreBase } from "@town/town.auth/core/core.base";
+import { redis } from "@town/town.redis/redis.client";
+import { redis_config } from "@town/application/constant";
 
 @Injectable()
 export class CoreService {
@@ -15,7 +17,7 @@ export class CoreService {
         private readonly coreBase: CoreBase,
         private readonly rsaBase: RsaBase,
         private readonly rsaService: RsaService,
-        private readonly util: UtilService
+        private readonly util: UtilService,
     ) { }
 
     public async loginService(data: UserLoginDTO) {
@@ -35,13 +37,14 @@ export class CoreService {
         // 比较用户密码
         const isTrue = this.coreBase.comparePassword(frontPass, user.hexPassword);
 
-        if(!isTrue){
+        if (!isTrue) {
             throw TownException.of(MsgPool.user_pass_invalid);
         }
 
-        // TODO 存储登录状态在redis中
-        
-
+        // 存储登录状态在redis中
+        const key = `${redis_config.user_flag}${user._id}`;
+        await redis.set(key, JSON.stringify(user));
+        await redis.expire(key, redis_config.user_expire);
         return user;
     }
 }

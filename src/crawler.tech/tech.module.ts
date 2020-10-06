@@ -1,5 +1,5 @@
 import { Module, HttpModule } from '@nestjs/common'
-import { TechModel } from '@town/town.util/model.core';
+import { TechModel } from '@town/town.util/town.model';
 import { TechController } from './tech.controller';
 import { TechService } from './tech.service';
 

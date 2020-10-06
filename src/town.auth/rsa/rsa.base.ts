@@ -1,6 +1,6 @@
 import { Injectable } from "@nestjs/common";
 import * as NodeRsa from 'node-rsa';
-import { rsa } from "@town/application/constant";
+import { rsa_config } from "@town/application/constant";
 import { UtilService } from "@town/town.util/town.util";
 
 @Injectable()
@@ -14,7 +14,7 @@ export class RsaBase {
   // 获取密钥对
   getRsaKeyPair() {
     // 创建rsa对象，指定密钥长度
-    const nodeRsa = new NodeRsa({ b: rsa.len });
+    const nodeRsa = new NodeRsa({ b: rsa_config.len });
     // 设置加密格式
     nodeRsa.setOptions({ encryptionScheme: 'pkcs1' });
     // 生成公钥

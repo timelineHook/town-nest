@@ -9,11 +9,11 @@ import { ScheduleTasksModule } from '@town/schedule/schedule.module';
 import { WinstonInterceptor } from '@town/interceptor/winston.logger.interceptor';
 import { UserModule } from '@town/town.user/user.module';
 import { AuthModule } from '@town/town.auth/auth.module';
-import { mongodb } from '@town/application/constant';
+import { mongodb_config } from '@town/application/constant';
 
 @Module({
   imports: [
-    MongooseModule.forRoot(mongodb.url),
+    MongooseModule.forRoot(mongodb_config.url),
     ScheduleModule.forRoot(),
     ScheduleTasksModule,
     UtilModule,

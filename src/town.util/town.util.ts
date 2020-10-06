@@ -3,7 +3,7 @@ import * as fs from 'fs';
 import { logger } from "@town/middleware/winston.middleware";
 import * as moment from 'moment';
 import * as uuid from 'uuid';
-import { tech } from "@town/application/constant";
+import { tech_config } from "@town/application/constant";
 import { CreateImageDTO } from "@town/town.util/validate/util.dto";
 
 @Injectable()
@@ -17,7 +17,7 @@ export class UtilService {
   // 图片写入
   async writeFIleImage(data: CreateImageDTO) {
     const req = await this.http.get(data.url, { responseType: 'stream' }).toPromise();
-    const writeStream = fs.createWriteStream(`${tech.techDir}/${data._id}`);
+    const writeStream = fs.createWriteStream(`${tech_config.techDir}/${data._id}`);
     req.data.pipe(writeStream);
     writeStream.on('finish', () => {
       logger.info('文件下载完成', this.getUtilDate());

@@ -6,6 +6,8 @@ import { UtilService } from '@town/town.util/town.util';
 import { CoreBase } from '@town/town.auth/core/core.base';
 import { RsaBase } from '@town/town.auth/rsa/rsa.base';
 import { UserDB } from '@town/town.user/user.db';
+import { redis_config } from '@town/application/constant';
+import { redis } from '@town/town.redis/redis.client';
 
 @Injectable()
 export class UserService {
@@ -33,8 +35,10 @@ export class UserService {
     const user = new UserFactory().create(entity);
     await this.db.create(user);
 
-    // TODO redis 存储用户登录状态
-
+    // 存储用户登录状态
+    const key = `${redis_config.user_flag}${user._id}`;
+    await redis.set(key, JSON.stringify(user));
+    await redis.expire(key, redis_config.user_expire);
     return user;
   }
 

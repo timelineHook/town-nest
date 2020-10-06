@@ -9,7 +9,7 @@ import { logger } from '../middleware/winston.middleware';
 import * as _ from 'lodash';
 import { UtilService } from '../town.util/town.util';
 import { GetByPageDTO } from './tech.dto';
-import * as CONSTANT from '../application/constant';
+import { tech_config } from '../application/constant';
 import * as fs from 'fs';
 
 @Injectable()
@@ -105,7 +105,7 @@ export class TechService {
     try {
       const day = this.techUtil.getUtilDateStart();
       const condition = { createTIme: { $lte: day } };
-      const [ data ] = await Promise.all([
+      const [data] = await Promise.all([
         this.techModel
           .find(condition).lean(),
         this.techModel
@@ -114,7 +114,7 @@ export class TechService {
       const ids = data.map((v) => v.imageSrc);
       ids.forEach((v) => {
         logger.info(`remove image => ${v}`);
-        fs.unlink(`${CONSTANT.tech.techDir}/${v}`, (e) => { logger.error(`remove image fail`, e.message); })
+        fs.unlink(`${tech_config.techDir}/${v}`, (e) => { logger.error(`remove image fail`, e.message); })
       });
     } catch (e) {
       logger.error(`clearTechBrunchData fail`, e.message);
@@ -122,8 +122,8 @@ export class TechService {
   }
 
   // 获取图片
-  getSrcService(id: string): string{
-    const src = `${CONSTANT.tech.techDir}/${id}`;
+  getSrcService(id: string): string {
+    const src = `${tech_config.techDir}/${id}`;
     if (fs.existsSync(src)) {
       return fs.readFileSync(src, 'binary');
     }

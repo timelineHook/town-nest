@@ -41,7 +41,7 @@ async function bootstrap() {
   await app.listen(3000, () => {
     logger.info('listen 3000 success', 'town-nest');
   }).catch((e: Error) => {
-    logger.error(`start nest pro bug fail ${ e.message}`);
+    logger.error(`start nest pro bug fail ${e.message}`);
   });
 }
 bootstrap();
