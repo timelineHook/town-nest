@@ -39,7 +39,7 @@ async function bootstrap() {
   // app.useGlobalFilters(new HttpExceptionFilter());
 
   await app.listen(3000, () => {
-    logger.info('listen 3000 success', 'next-pro-bug');
+    logger.info('listen 3000 success', 'town-nest');
   }).catch((e: Error) => {
     logger.error(`start nest pro bug fail ${ e.message}`);
   });

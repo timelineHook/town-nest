@@ -1,19 +1,15 @@
 import { Injectable } from "@nestjs/common";
 import { EntityFactory } from "@town/town.util/abstract/factory.abstract";
-import { UtilService } from "@town/town.util/town.util";
+import { UtilService as util } from "@town/town.util/town.util";
 import { CreateEntity, UpdateEntity } from "@town/town.user/user.entity";
 import { User } from "@town/town.user/user.schema";
 
 @Injectable()
 export class UserFactory implements EntityFactory {
 
-    constructor(
-        private readonly util?: UtilService
-    ){}
-
     create(entity: CreateEntity): User {
-        const _id = this.util.getRandomUUID();
-        const time = this.util.getUtilDate();
+        const _id = util.getRandomUUID();
+        const time = util.getUtilDate();
         const user = new User();
         user._id = _id;
         user.area = '';
@@ -32,7 +28,7 @@ export class UserFactory implements EntityFactory {
     }
 
     update(entity: UpdateEntity): UpdateEntity{
-        const time = this.util.getUtilDate();
+        const time = util.getUtilDate();
         const user = new User();
         user.area = entity.area;
         user.city = entity.city;

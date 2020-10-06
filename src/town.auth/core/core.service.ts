@@ -22,9 +22,9 @@ export class CoreService {
         // 获取私钥
         const { privateKey } = await this.rsaService.getRsaKeyPair();
         // 解密base64 获取私钥
-        const encodePublickKey = this.util.setDecodeBase64(data.password);
+        const base64PK = this.util.setDecodeBase64(privateKey);
         // 使用私钥解密公钥 获取密码明文
-        const frontPass = this.rsaBase.decodePublickKey(encodePublickKey, privateKey);
+        const frontPass = this.rsaBase.decodePublickKey(data.password, base64PK);
         // 获取用户密码
         const user = await this.userDB.findByName(data.username);
 
@@ -40,6 +40,7 @@ export class CoreService {
         }
 
         // TODO 存储登录状态在redis中
+        
 
         return user;
     }

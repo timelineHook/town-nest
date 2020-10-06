@@ -13,8 +13,9 @@ export class WinstonInterceptor implements NestInterceptor {
       .handle()
       .pipe(
         map((data) => {
-          logger.info(`response data: ${JSON.stringify(data)}`);
-          return { success: true, code: 200, data };
+          const result = { success: true, code: 200, data };
+          logger.info(`response - ${JSON.stringify(result)}`);
+          return result;
         })
       );
   }

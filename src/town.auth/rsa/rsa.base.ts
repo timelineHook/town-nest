@@ -26,10 +26,10 @@ export class RsaBase {
   }
 
   // 使用私钥解密base64获取公钥
-  decodePublickKey(publicKey: string, privateKey: string) {
-    const nodeRsa = new NodeRsa({ b: rsa.len });
+  decodePublickKey(frontPass: string, privateKey: string) {
+    const nodeRsa = new NodeRsa(privateKey);
     nodeRsa.importKey(privateKey);
-    const password = nodeRsa.decrypt(publicKey, 'utf8');
+    const password = nodeRsa.decrypt(frontPass, 'utf8');
     return password;
   }
 

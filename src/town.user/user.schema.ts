@@ -1,12 +1,14 @@
 import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose";
 
+const defaultProp = {required: false, default: ''};
+
 @Schema({ collection: 'user' })
 export class User {
 
     @Prop({ required: true })
     _id: string;
 
-    @Prop({ required: true })
+    @Prop(defaultProp)
     name: string;
 
     @Prop({ required: true })
@@ -24,22 +26,22 @@ export class User {
     @Prop({ required: true })
     updateTime: string;
 
-    @Prop({ required: true })
+    @Prop(defaultProp)
     country: string;
 
-    @Prop({ required: true })
+    @Prop(defaultProp)
     province: string;
 
-    @Prop({ required: true })
+    @Prop(defaultProp)
     city: string;
 
-    @Prop({ required: true })
+    @Prop(defaultProp)
     area: string;
 
-    @Prop({ required: true })
+    @Prop(defaultProp)
     loginTime: string;
 
-    @Prop({ required: true })
+    @Prop(defaultProp)
     lockTime: string;
 }
 

@@ -3,7 +3,7 @@ import * as fs from 'fs';
 import { logger } from "@town/middleware/winston.middleware";
 import * as moment from 'moment';
 import * as uuid from 'uuid';
-import { rsa, tech } from "@town/application/constant";
+import { tech } from "@town/application/constant";
 import { CreateImageDTO } from "@town/town.util/validate/util.dto";
 
 @Injectable()
@@ -72,12 +72,12 @@ export class UtilService {
 
   // base64 解密
   setDecodeBase64(text: string) {
-    const decode = Buffer.from(text, 'utf-8').toString();
+    const decode = Buffer.from(text, 'base64').toString();
     return decode;
   }
 
   static setDecodeBase64(text: string) {
-    const decode = Buffer.from(text, 'utf-8').toString();
+    const decode = Buffer.from(text, 'base64').toString();
     return decode;
   }
 

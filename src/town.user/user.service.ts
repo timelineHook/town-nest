@@ -22,10 +22,10 @@ export class UserService {
   public async create(userCreateDTO: UserCreateDTO) {
     // 获取密钥对
     const { privateKey } = await this.rsaService.getRsaKeyPair();
-    // 解密base64 获取公钥
-    const encodePublicKey = this.util.setDecodeBase64(userCreateDTO.password);
+    // 使用base64解密获取私钥
+    const base64pk = this.util.setDecodeBase64(privateKey);
     // 使用私钥解密公钥获取明文密码
-    const password = this.rsaBase.decodePublickKey(encodePublicKey, privateKey);
+    const password = this.rsaBase.decodePublickKey(userCreateDTO.password, base64pk);
     // 获取加密的用户密码
     const hexPassword = this.coreBase.encryptPassword(password);
     // 编辑用户实体

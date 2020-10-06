@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsString, IsNotEmpty, IsBase64, IsMobilePhone } from 'class-validator';
+import { IsString, IsNotEmpty, IsBase64, IsMobilePhone, IsOptional } from 'class-validator';
 
 export class UserLoginDTO {
 
@@ -14,10 +14,12 @@ export class UserLoginDTO {
 
     @ApiProperty({ example: '17398734562', description: '用户手机号' })
     @IsMobilePhone()
+    @IsOptional()
     public readonly mobile?: string;
 
     @ApiProperty({ example: '17398734562@163.com', description: '用户邮箱' })
     @IsMobilePhone()
+    @IsOptional()
     public readonly email?: string;
 
 }

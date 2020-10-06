@@ -11,7 +11,7 @@ export class CoreContorller {
     ) { }
 
     @ApiOperation({ summary: '用户登录' })
-    @Post('post')
+    @Post('login')
     async login(@Body() body: UserLoginDTO) {
         const data = await this.service.loginService(body);
         return data;

@@ -11,8 +11,8 @@ export class UserDB {
     ) {
     }
 
-    public async findByName(name: string) {
-        const data = await this.model.findOne({ name }).lean();
+    public async findByName(username: string) {
+        const data = await this.model.findOne({ username }).lean();
         return data;
     }
 

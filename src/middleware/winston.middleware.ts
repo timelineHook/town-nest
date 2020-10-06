@@ -4,7 +4,7 @@ import { createLogger, transports, addColors } from 'winston';
 import * as DailyRotateFile from 'winston-daily-rotate-file';
 import * as rTracer from 'cls-rtracer';
 import { format } from 'logform';
-const logDIr = '/data/logs/nest-pro-bug';
+const logDIr = '/data/logs/town-nest';
 const myFormat = format.printf(({ level, message, timestamp, ms }) => {
     return `${timestamp} ${rTracer.id() ?? "#"} ${level}: ${message} ${ms} \n`;
 });
@@ -95,10 +95,10 @@ if (process.env.NODE_ENV !== 'production') {
 const custom = {
     ...loggerMiddleware,
     info: (message: string, meta?: string) => {
-        loggerMiddleware.info(`${meta ?? 'nest-pro-bug'} => ${message}`);
+        loggerMiddleware.info(`${meta ?? 'town-nest'} => ${message}`);
     },
     error: (message: string, meta?: string) => {
-        loggerMiddleware.error(`${meta ?? 'nest-pro-bug'} => ${message}`);
+        loggerMiddleware.error(`${meta ?? 'town-nest'} => ${message}`);
     },
 };
 custom.info('start winston custom...');
