@@ -3,11 +3,12 @@ import { UserDB } from "@town/town.user/user.db";
 import { CoreContorller } from "./core/core.controller";
 import { CoreModule } from "./core/core.module";
 import { CoreService } from "./core/core.service";
+import { PPModule } from "./passport/passport.module";
 import { RsaController } from "./rsa/rsa.controller";
 import { RsaModule } from "./rsa/rsa.module";
 import { RsaService } from "./rsa/rsa.service";
 
-const multi = [CoreModule, RsaModule];
+const multi = [CoreModule, RsaModule, PPModule];
 
 @Module({
     imports: multi,

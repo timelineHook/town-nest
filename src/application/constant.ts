@@ -16,4 +16,8 @@ export const redis_config = {
 
 export const mongodb_config = {
   url: 'mongodb://zhangzw:zhangzw@101.200.74.42:27017/nest?authSource=admin&readPreference=primary&appname=MongoDB%20Compass&ssl=false'
-}
+};
+
+export const jwt_config = {
+  secret: 'secretKey',
+};
