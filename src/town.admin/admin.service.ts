@@ -133,8 +133,9 @@ export class AdminService {
         const logUids = list.map((v) => v._id);
         const users = await this.adminUserDB.query({ _id: { $in: logUids } });
         for (const item of list as any) {
-            const v = users.find((v) => v._id === item._id);
+            const v = users.find((v) => v._id === item.uid);
             item.name = v?.name;
+            item.jobNumber = v?.jobNumber;
         }
         const count = await this.adminUserLogDB.count({});
         return {
