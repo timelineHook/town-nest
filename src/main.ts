@@ -7,9 +7,20 @@ import * as compression from 'compression';
 import * as rTracer from 'cls-rtracer';
 import { logger } from './middleware/winston.middleware';
 import { HttpExceptionFilter } from './filter/http.exception';
+import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
+
+  // swagger api 可视化
+  const options = new DocumentBuilder()
+    .setTitle('Town Api')
+    .setDescription('The town API description')
+    .setVersion('1.0')
+    .addTag('town')
+    .build();
+  const document = SwaggerModule.createDocument(app, options);
+  SwaggerModule.setup('api', app, document);
 
   // 全局路由前缀
   app.setGlobalPrefix('town');
