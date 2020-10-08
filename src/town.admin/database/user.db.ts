@@ -52,10 +52,10 @@ export class AdminUserDB {
         skip = skip ?? 0;
         limit = limit ?? 10;
         const options: any = {};
-        if(skip === undefined){
+        if(skip !== undefined){
             options.skip = skip;
         }
-        if(limit === undefined){
+        if(limit !== undefined){
             options.limit = limit;
         }
         const data = await this.model.find(obj, {}, { sort: { createTime: -1 }, ...options, lean: true });
