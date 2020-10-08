@@ -4,6 +4,7 @@ let session = null;
 
 interface IExtra {
     ip: string;
+    loginType: string;
 }
 
 type TSession = AdminUser & IExtra;
@@ -20,7 +21,8 @@ export class AdminSession {
             name: user.name,
             updateTime: user.updateTime,
             username: user.username,
-            ip: user.ip
+            ip: user.ip,
+            loginType: user.loginType
         }
         session = entity;
     }

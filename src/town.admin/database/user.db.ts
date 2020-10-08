@@ -1,6 +1,6 @@
 import { Injectable } from "@nestjs/common";
 import { InjectModel } from "@nestjs/mongoose";
-import { Document, Model } from "mongoose";
+import { Document, FilterQuery, Model } from "mongoose";
 import { QueryUser } from "../dto.util";
 import { AdminUser } from "./user.schema";
 import { pick } from 'lodash';
@@ -34,8 +34,8 @@ export class AdminUserDB {
         return data;
     }
 
-    public async query(condition: Partial<QueryUser>, skip?: number, limit?: number) {
-        const obj: Partial<Record<'name' | 'mobile', RegExp>> = {};
+    public async query(condition: any, skip?: number, limit?: number) {
+        const obj: any = {};
 
         if (condition.name) {
             obj.name = RegExp(condition.name);
@@ -44,7 +44,21 @@ export class AdminUserDB {
         if (condition.mobile) {
             obj.mobile = RegExp(condition.mobile);
         }
-        const data = await this.model.find(obj, {}, { sort: { createTime: -1 }, skip, limit, lean: true });
+
+        if (condition.jobNumber){
+            obj.jobNumber = RegExp(condition.jobNumber);
+        }
+
+        skip = skip ?? 0;
+        limit = limit ?? 10;
+        const options: any = {};
+        if(skip === undefined){
+            options.skip = skip;
+        }
+        if(limit === undefined){
+            options.limit = limit;
+        }
+        const data = await this.model.find(obj, {}, { sort: { createTime: -1 }, ...options, lean: true });
         return data;
     }
 

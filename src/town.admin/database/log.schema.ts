@@ -6,6 +6,12 @@ export class AdminUserLog {
     _id: string;
 
     @Prop({required: true})
+    uid: string;
+
+    @Prop({required: true})
+    loginType: string;
+
+    @Prop({required: true})
     createTime: string;
 
     @Prop({required: true})

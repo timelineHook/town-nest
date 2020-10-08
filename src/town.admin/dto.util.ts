@@ -1,5 +1,5 @@
 import { ApiProperty } from "@nestjs/swagger";
-import { IsNotEmpty, IsNumber, IsOptional, IsString, Min } from "class-validator";
+import { IsArray, IsNotEmpty, IsNumber, IsOptional, IsString, Min } from "class-validator";
 
 // 用户列表
 
@@ -91,21 +91,21 @@ export class QueryLog {
 
     @ApiProperty({ example: '逃回学', description: '姓名' })
     @IsString()
-    @IsNotEmpty()
+    @IsOptional()
     name?: string;
 
     @ApiProperty({ example: '0879', description: '工号' })
-    @IsNumber()
-    @IsNotEmpty()
+    @IsString()
+    @IsOptional()
     jobNumber?: string
 
     @ApiProperty({ example: ['2020-10-06 16:50', '2020-10-06 16:51'], description: '操作时间' })
-    @IsString()
-    @IsNotEmpty()
-    operationTime?: string;
+    @IsArray()
+    @IsOptional()
+    operationTime?: string[];
 
     @ApiProperty({ example: '0879', description: '手机号' })
     @IsString()
-    @IsNotEmpty()
+    @IsOptional()
     mobile?: string;
 }

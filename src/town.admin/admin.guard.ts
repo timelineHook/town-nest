@@ -26,6 +26,14 @@ export class AdminSessionGuard implements CanActivate {
       entity = { ip: request.ip };
     }
 
+
+    const deviceAgent = request.headers["user-agent"].toLowerCase();
+    const agentID = deviceAgent.match(/(iphone|ipod|ipad|android)/);
+    if (agentID) {
+      entity.loginType = 'mobile';
+    } else {
+      entity.loginType = 'pc';
+    }
     AdminSession.session = entity;
 
     return true;
