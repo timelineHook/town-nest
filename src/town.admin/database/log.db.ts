@@ -17,16 +17,16 @@ export class AdminUserLogDB {
     }
 
     public async query(condition: FilterQuery<QueryUser>, skip: number, limit: number) {
-        const data = await this.model.find(condition, {}, { skip, limit, lean: true });
+        const data = await this.model.find(condition, {}, { sort: { createTime: -1 }, skip, limit, lean: true });
         return data;
     }
 
-    public async count(condition){
+    public async count(condition) {
         const data = await this.model.count(condition);
         return data;
     }
 
-    public async create(data: AdminUserLog){
+    public async create(data: AdminUserLog) {
         const entity = {
             _id: this.util.getRandomUUID(),
             uid: data.uid,
