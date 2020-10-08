@@ -1,5 +1,5 @@
-import { ApiProperty } from "@nestjs/swagger";
-import { IsArray, IsNotEmpty, IsNumber, IsOptional, IsString, Min } from "class-validator";
+import { ApiOperation, ApiProperty } from "@nestjs/swagger";
+import { IsArray, IsNotEmpty, IsNumber, IsOptional, IsString, IsUUID, Min } from "class-validator";
 
 // 用户列表
 
@@ -11,6 +11,12 @@ export class Login {
     @ApiProperty({example: 'xxx', description: '用户密码'})
     @IsString()
     hexPassword: string;
+}
+
+export class GetUserById {
+    @ApiProperty({example: 'XXXX', description: '用户id'})
+    @IsUUID(4)
+    id: string;
 }
 
 export class QueryUser {

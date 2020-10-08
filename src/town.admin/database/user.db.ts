@@ -14,6 +14,11 @@ export class AdminUserDB {
 
     }
 
+    public async findById(id: string) {
+        const data = await this.model.findById(id, {}, { lean: true });
+        return data;
+    }
+
     public async findByName(name: string | RegExp) {
         const data = await this.model.findOne({ name }, {}, { lean: true });
         return data;
@@ -45,17 +50,17 @@ export class AdminUserDB {
             obj.mobile = RegExp(condition.mobile);
         }
 
-        if (condition.jobNumber){
+        if (condition.jobNumber) {
             obj.jobNumber = RegExp(condition.jobNumber);
         }
 
         skip = skip ?? 0;
         limit = limit ?? 10;
         const options: any = {};
-        if(skip !== undefined){
+        if (skip !== undefined) {
             options.skip = skip;
         }
-        if(limit !== undefined){
+        if (limit !== undefined) {
             options.limit = limit;
         }
         const data = await this.model.find(obj, {}, { sort: { createTime: -1 }, ...options, lean: true });

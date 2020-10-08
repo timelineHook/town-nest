@@ -21,8 +21,14 @@ export class AdminService {
     ) {
 
     }
-
+    
     // 用户列表
+
+    public async findById(id: string){
+        const user = await this.adminUserDB.findById(id);
+        return user;
+    }
+
     public async login(data: Login) {
         const user = await this.adminUserDB.findByUserName(data.username);
 

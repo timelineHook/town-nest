@@ -1,8 +1,8 @@
-import { Body, Controller, Post, UseFilters, UseGuards } from "@nestjs/common";
+import { Body, Controller, Get, Param, Post, UseFilters, UseGuards } from "@nestjs/common";
 import { ApiOperation, ApiTags } from "@nestjs/swagger";
 import { AdminSessionGuard } from "./admin.guard";
 import { AdminService } from "./admin.service";
-import { CreateUser, Login, QueryLog, QueryUser } from "./dto.util";
+import { CreateUser, GetUserById, Login, QueryLog, QueryUser } from "./dto.util";
 
 @ApiTags('后台管理')
 @UseGuards(AdminSessionGuard)
@@ -10,6 +10,14 @@ import { CreateUser, Login, QueryLog, QueryUser } from "./dto.util";
 export class AdminController {
     constructor(private readonly service: AdminService) {
 
+    }
+
+    // 个人新洗
+    @ApiOperation({summary: '个人信息'})
+    @Get('get/:id')
+    async get(@Param() params: GetUserById){
+        const data = await this.service.findById(params.id);
+        return data;
     }
 
     // 用户列表
