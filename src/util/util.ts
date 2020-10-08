@@ -1,9 +1,9 @@
 import { Injectable, HttpService } from "@nestjs/common";
 import * as fs from 'fs';
-import { CreateImageDto } from "src/dto/util.dto";
 import { logger } from "../middleware/winston.middleware";
 import * as moment from 'moment';
 import * as uuid from 'uuid';
+import { CreateImageDTO } from "src/town.util/validate/util.dto";
 
 @Injectable()
 export class UtilService {
@@ -16,7 +16,7 @@ export class UtilService {
   private readonly techDir = `/tmp/nest/tech/img`;
 
   // 图片写入
-  async writeFIleImage(data: CreateImageDto): Promise<void> {
+  async writeFIleImage(data: CreateImageDTO): Promise<void> {
     const req = await this.http.get(data.url, { responseType: 'stream' }).toPromise();
     const writeStream = fs.createWriteStream(`${this.techDir}/${data._id}`);
     req.data.pipe(writeStream);
