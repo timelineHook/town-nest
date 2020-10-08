@@ -10,9 +10,9 @@ export class ScheduleTasksService {
   ){}
 
   // 定时爬取数据
-  @Cron(CronExpression.EVERY_30_MINUTES )
+  @Cron(CronExpression.EVERY_HOUR )
   bugTechBrunch(): void {
-    // this.techService.bugTechCrunchData();
+    this.techService.bugTechCrunchData();
   }
 
   // 每周清空前一周数据

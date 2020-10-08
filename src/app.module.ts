@@ -10,14 +10,22 @@ import { WinstonInterceptor } from '@town/interceptor/winston.logger.interceptor
 import { UserModule } from '@town/town.user/user.module';
 import { AuthModule } from '@town/town.auth/auth.module';
 import { mongodb_config } from '@town/application/constant';
+import { AdminModule } from './town.admin/admin.module';
 
 @Module({
   imports: [
-    MongooseModule.forRoot(mongodb_config.url),
+    MongooseModule.forRoot(mongodb_config.nest_master.url),
+    // MongooseModule.forRoot(mongodb_config.nest_master.url, {
+    //   connectionName: mongodb_config.nest_master.name
+    // }),
+    // MongooseModule.forRoot(mongodb_config.nest_admin.url, {
+    //   connectionName: mongodb_config.nest_admin.name
+    // }),
     ScheduleModule.forRoot(),
     ScheduleTasksModule,
     UtilModule,
     HttpModule,
+    AdminModule,
 
     AuthModule,
     TechModule,
