@@ -6,7 +6,6 @@ import * as helmet from 'helmet';
 import * as compression from 'compression';
 import * as rTracer from 'cls-rtracer';
 import { logger } from './middleware/winston.middleware';
-import { HttpExceptionFilter } from './filter/http.exception';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 
 async function bootstrap() {

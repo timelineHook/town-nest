@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Param, Post, UseFilters, UseGuards } from "@nestjs/common";
+import { Body, Catch, Controller, Get, Param, Post, UseFilters, UseGuards } from "@nestjs/common";
 import { ApiOperation, ApiTags } from "@nestjs/swagger";
 import { AdminSessionGuard } from "./admin.guard";
 import { AdminService } from "./admin.service";
@@ -13,9 +13,9 @@ export class AdminController {
     }
 
     // 个人新洗
-    @ApiOperation({summary: '个人信息'})
+    @ApiOperation({ summary: '个人信息' })
     @Get('get/:id')
-    async get(@Param() params: GetUserById){
+    async get(@Param() params: GetUserById) {
         const data = await this.service.findById(params.id);
         return data;
     }

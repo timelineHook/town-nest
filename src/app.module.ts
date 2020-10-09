@@ -1,5 +1,5 @@
 import { Module, Global, NestModule, MiddlewareConsumer, RequestMethod, HttpModule } from '@nestjs/common';
-import { APP_INTERCEPTOR } from '@nestjs/core';
+import { APP_FILTER, APP_INTERCEPTOR } from '@nestjs/core';
 import { MongooseModule } from '@nestjs/mongoose'
 import { ScheduleModule } from '@nestjs/schedule';
 import { TechModule } from '@town/crawler.tech/tech.module';
@@ -11,6 +11,7 @@ import { UserModule } from '@town/town.user/user.module';
 import { AuthModule } from '@town/town.auth/auth.module';
 import { mongodb_config } from '@town/application/constant';
 import { AdminModule } from './town.admin/admin.module';
+import { AllExceptionsFilter } from './filter/town.exception';
 
 @Module({
   imports: [
@@ -32,13 +33,20 @@ import { AdminModule } from './town.admin/admin.module';
     UserModule
   ],
   controllers: [],
-  providers: [{
-    provide: APP_INTERCEPTOR,
-    useClass: WinstonInterceptor
-  }],
+  providers: [
+    {
+      // 挂载管局winston日志
+      provide: APP_INTERCEPTOR,
+      useClass: WinstonInterceptor
+    },
+    {
+      // 挂载全局异常过滤器
+      provide: APP_FILTER,
+      useClass: AllExceptionsFilter,
+    }],
 })
 export class AppModule implements NestModule {
-  configure(consumer: MiddlewareConsumer): void {
+  configure(consumer: MiddlewareConsumer) {
     consumer
       .apply(LoggerMiddleware)
       .forRoutes({ path: '*', method: RequestMethod.ALL });
