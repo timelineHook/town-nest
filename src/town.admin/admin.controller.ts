@@ -1,4 +1,5 @@
-import { Body, Catch, Controller, Get, Param, Post, UseFilters, UseGuards } from "@nestjs/common";
+import { Body, Controller, Get, Param, Post, UploadedFile, UseFilters, UseGuards, UseInterceptors } from "@nestjs/common";
+import { FileInterceptor } from "@nestjs/platform-express";
 import { ApiOperation, ApiTags } from "@nestjs/swagger";
 import { AdminSessionGuard } from "./admin.guard";
 import { AdminService } from "./admin.service";
@@ -48,6 +49,15 @@ export class AdminController {
     async queryLog(@Body() body: QueryLog) {
         const data = await this.service.queryLog(body);
         return data;
+    }
+
+    // 上传头像
+    @ApiOperation({ summary: '用户头像上传' })
+    @UseInterceptors(FileInterceptor('file'))
+    @Post('upload/avatar')
+    public async uploadAvatar(@UploadedFile() file) {
+        await this.service.uploadAvatar(file);
+        return true;
     }
 
 }

@@ -1,6 +1,6 @@
 import { Injectable } from "@nestjs/common";
 import { InjectModel } from "@nestjs/mongoose";
-import { Document, FilterQuery, Model } from "mongoose";
+import { Document, Model } from "mongoose";
 import { QueryUser } from "../dto.util";
 import { AdminUser } from "./user.schema";
 import { pick } from 'lodash';

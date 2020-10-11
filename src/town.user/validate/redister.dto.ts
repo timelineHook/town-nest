@@ -16,6 +16,4 @@ export class UserCreateDTO {
     @IsMobilePhone()
     readonly mobile: string;
 
-
-
 }

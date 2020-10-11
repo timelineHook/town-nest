@@ -2,15 +2,16 @@ import { Injectable } from "@nestjs/common";
 import { UtilService } from "@town/town.util/town.util";
 import { AdminUserDB } from "./database/user.db";
 import { CreateUser, Login, QueryLog, QueryUser } from "./dto.util";
-import { omit, isEmpty, pick } from 'lodash';
+import { omit, isEmpty, pick, split } from 'lodash';
 import { TownException } from "@town/town.util/exception/app.exception";
 import { MsgPool } from "@town/town.util/exception/app.msg";
 import { redis } from "@town/town.redis/redis.client";
-import { redis_config } from "@town/application/constant";
+import { redis_config, admin_config } from "@town/application/constant";
 import { AdminUserLogDB } from "./database/log.db";
 import { AdminSession } from "./admin.session";
 import { AdminUserLog } from "./database/log.schema";
 import * as moment from "moment";
+import * as fs from "fs";
 
 @Injectable()
 export class AdminService {
@@ -21,10 +22,10 @@ export class AdminService {
     ) {
 
     }
-    
+
     // 用户列表
 
-    public async findById(id: string){
+    public async findById(id: string) {
         const user = await this.adminUserDB.findById(id);
         return user;
     }
@@ -60,10 +61,9 @@ export class AdminService {
 
     public async create(data: CreateUser) {
 
-        const name = await this.adminUserDB.findByName(data.name);
         const username = await this.adminUserDB.findByUserName(data.username);
-        if (name || username) {
-            return { message: 'repeat' }
+        if (username) {
+            throw TownException.of(MsgPool.user_is_repart);
         }
 
         const operation = {
@@ -79,11 +79,12 @@ export class AdminService {
         const _id = this.util.getRandomUUID();
         const entity = {
             _id,
-            image: data.image ?? '',
+            avatarImage: data.avatarImage ?? '',
             ...data,
             createTime: time,
             updateTime: time,
-            loginTime: ''
+            loginTime: '',
+            role: data.role
         }
         await this.adminUserDB.create(entity);
         return entity;
@@ -153,5 +154,12 @@ export class AdminService {
     public async createLog(data: AdminUserLog) {
         const result = await this.adminUserLogDB.create(data);
         return result;
+    }
+
+    public async uploadAvatar(file) {
+        const _id = this.util.getRandomUUID();
+        const type = split(file.mimetype, '/')[1];
+        const path = `${admin_config.user_avatar}/${_id}.${type}`;
+        fs.writeFileSync(path, file.buffer);
     }
 }

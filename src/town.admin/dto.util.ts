@@ -67,7 +67,7 @@ export class CreateUser {
     @ApiProperty({ example: 'xxx', description: '头像' })
     @IsString()
     @IsOptional()
-    image?: string;
+    avatarImage?: string;
 
     @ApiProperty({ example: '逃回学', description: '用户登录名' })
     @IsString()

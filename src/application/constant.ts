@@ -2,6 +2,10 @@ export const tech_config = {
   techDir: `/tmp/nest/tech/img`,
 };
 
+export const admin_config = {
+  user_avatar: '/tmp/nest/admin'
+}
+
 export const rsa_config = {
   len: 1024,
   publicPkcs: 'pkcs1-public-pem',
@@ -25,7 +29,9 @@ export const mongodb_config = {
   }
 };
 
-
+export const user_config = {
+  
+}
 
 export const jwt_config = {
   secret: 'secretKey',
