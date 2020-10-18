@@ -3,7 +3,7 @@ export const tech_config = {
 };
 
 export const admin_config = {
-  user_avatar: '/tmp/nest/admin'
+  user_avatar: '/tmp/nest/admin/avatar'
 }
 
 export const rsa_config = {

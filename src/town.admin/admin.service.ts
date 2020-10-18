@@ -159,7 +159,23 @@ export class AdminService {
     public async uploadAvatar(file) {
         const _id = this.util.getRandomUUID();
         const type = split(file.mimetype, '/')[1];
-        const path = `${admin_config.user_avatar}/${_id}.${type}`;
+        const uid = AdminSession.session._id;
+        const avatarImage = `${_id}.${type}`;
+        const path = `${admin_config.user_avatar}/${avatarImage}`;
+        const filter = { _id: uid };
+        const update = { avatarImage };
+        await this.adminUserDB.findOneAndUpdate(filter, update);
         fs.writeFileSync(path, file.buffer);
     }
+
+    // 获取图片
+    getSrcService(id: string): string {
+        const src = `${admin_config.user_avatar}/${id}`;
+        if (fs.existsSync(src)) {
+            return fs.readFileSync(src, 'binary');
+        }
+
+        throw TownException.of(MsgPool.avatar_404);
+    }
+
 }

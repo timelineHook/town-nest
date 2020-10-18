@@ -11,6 +11,8 @@ import { UtilService } from '../town.util/town.util';
 import { GetByPageDTO } from './tech.dto';
 import { tech_config } from '../application/constant';
 import * as fs from 'fs';
+import { TownException } from '@town/town.util/exception/app.exception';
+import { MsgPool } from '@town/town.util/exception/app.msg';
 
 @Injectable()
 export class TechService {
@@ -33,7 +35,7 @@ export class TechService {
     const skip = (intPage - 1) * intLimit;
     const data = await this.techModel.find({}, { content: 0 }).sort({ createTime: -1 }).skip(skip).limit(intLimit).lean<TechCrunch>();
     data.forEach((v) => {
-      v.imageSrc = `http://101.200.74.42:3000/tech/get/src/${v.imageSrc}`;
+      v.imageSrc = `http://101.200.74.42:3000/town/tech/get/src/${v.imageSrc}`;
     })
     return data;
   }
@@ -127,8 +129,8 @@ export class TechService {
     if (fs.existsSync(src)) {
       return fs.readFileSync(src, 'binary');
     }
-    logger.error('==============image no found!');
-    return '404';
+
+    throw TownException.of(MsgPool.avatar_404);
   }
 
 }
